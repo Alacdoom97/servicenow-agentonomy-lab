@@ -1,5 +1,6 @@
 import copy
 import json
+import sqlite3
 from pathlib import Path
 import tempfile
 import threading
@@ -50,6 +51,50 @@ class StoreTests(unittest.TestCase):
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory();self.path=Path(self.tmp.name)/'lab.db';self.store=Store(self.path)
     def tearDown(self): self.tmp.cleanup()
+    def test_connection_commits_and_closes_on_success(self):
+        with self.store.connect() as db:
+            db.execute("UPDATE incidents SET revision=7 WHERE number='INC-LAB-001'")
+        with self.assertRaises(sqlite3.ProgrammingError):
+            db.execute('SELECT 1')
+        with self.store.connect() as fresh:
+            revision=fresh.execute("SELECT revision FROM incidents WHERE number='INC-LAB-001'").fetchone()[0]
+        self.assertEqual(revision,7)
+    def test_connection_rolls_back_and_closes_on_exception(self):
+        with self.assertRaisesRegex(RuntimeError,'abort transaction'):
+            with self.store.connect() as db:
+                db.execute("UPDATE incidents SET revision=7 WHERE number='INC-LAB-001'")
+                raise RuntimeError('abort transaction')
+        with self.assertRaises(sqlite3.ProgrammingError):
+            db.execute('SELECT 1')
+        with self.store.connect() as fresh:
+            revision=fresh.execute("SELECT revision FROM incidents WHERE number='INC-LAB-001'").fetchone()[0]
+        self.assertEqual(revision,0)
+    def test_store_operations_leave_no_open_connections(self):
+        from unittest.mock import patch
+        original_connect=sqlite3.connect
+        connections=[]
+        def track_connection(*args,**kwargs):
+            db=original_connect(*args,**kwargs)
+            connections.append(db)
+            return db
+        try:
+            with patch('lab.store.sqlite3.connect',side_effect=track_connection):
+                other=Store(self.path)
+                other.incidents();other.get('INC-LAB-001')
+                r=other.run('INC-LAB-001')
+                other.run('INC-LAB-001')
+                other.decide(r['run_id'],'approve','A')
+                other.decide(r['run_id'],'approve','A')
+                other.audit()
+                with self.assertRaises(KeyError):other.run('MISSING')
+                blocked=other.run('INC-LAB-004')
+                with self.assertRaises(Conflict):other.decide(blocked['run_id'],'approve','A')
+            # Strong references prevent garbage collection from hiding leaked handles.
+            self.assertGreater(len(connections),0)
+            for db in connections:
+                with self.assertRaises(sqlite3.ProgrammingError):db.execute('SELECT 1')
+        finally:
+            for db in connections:db.close()
     def test_no_write_before_approval(self):
         before=self.store.get('INC-LAB-001');self.store.run(before['number'])
         self.assertEqual(before,self.store.get(before['number']))
@@ -111,7 +156,12 @@ class HttpTests(unittest.TestCase):
         headers={'Content-Type':'application/json'}
         if origin:headers['Origin']=origin
         req=urllib.request.Request(self.base+path,data=json.dumps(body).encode() if body is not None else None,headers=headers)
-        return urllib.request.urlopen(req,timeout=3)
+        try:
+            return urllib.request.urlopen(req,timeout=3)
+        except urllib.error.HTTPError as error:
+            # Error responses own file-like resources too; status remains readable after close.
+            error.close()
+            raise
     def test_ui_and_health(self):
         with self.request('/') as r:self.assertIn('Incident triage',r.read().decode())
         with self.request('/api/health') as r:self.assertEqual(json.load(r)['mode'],'offline')

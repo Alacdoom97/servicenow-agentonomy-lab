@@ -1,6 +1,7 @@
 """SQLite mock record adapter: transactional approval, revision checks, audit, idempotency."""
 import json
 import sqlite3
+from contextlib import contextmanager
 from .engine import load, triage
 
 class Conflict(ValueError):
@@ -18,8 +19,16 @@ class Store:
             for incident in load("data/incidents.json"):
                 db.execute("INSERT OR IGNORE INTO incidents VALUES (?,?,?)", (incident["number"], json.dumps(incident), 0))
 
+    @contextmanager
     def connect(self):
-        return sqlite3.connect(self.path, timeout=5)
+        """Commit or roll back the transaction, then always release its file handle."""
+        db = sqlite3.connect(self.path, timeout=5)
+        try:
+            # SQLite's own context manager handles transactions, not connection lifetime.
+            with db:
+                yield db
+        finally:
+            db.close()
 
     def incidents(self):
         with self.connect() as db:
