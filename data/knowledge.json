@@ -1,0 +1,32 @@
+[
+  {
+    "number": "KB-LAB-001",
+    "title": "VPN connectivity intake",
+    "category": "network",
+    "steps": [
+      "Confirm affected users, onset time, and whether another connection works.",
+      "Collect the exact error and approved VPN client version.",
+      "Send evidence to Network Support; do not change firewall or access policy."
+    ]
+  },
+  {
+    "number": "KB-LAB-002",
+    "title": "Email delivery intake",
+    "category": "software",
+    "steps": [
+      "Confirm whether sending, receiving, or both are affected.",
+      "Collect the error and time without passwords or message content.",
+      "Check the approved service status source when connected."
+    ]
+  },
+  {
+    "number": "KB-LAB-003",
+    "title": "Device issue intake",
+    "category": "hardware",
+    "steps": [
+      "Record the device asset identifier and symptoms.",
+      "Ask whether another device or printer works.",
+      "Send evidence to Desktop Support; do not erase or reset the device."
+    ]
+  }
+]

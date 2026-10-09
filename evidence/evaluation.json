@@ -1,0 +1,167 @@
+{
+  "dataset": "10 synthetic teaching cases; not a production accuracy estimate",
+  "passed": 10,
+  "total": 10,
+  "cases": [
+    {
+      "number": "INC-LAB-001",
+      "passed": true,
+      "actual": {
+        "category": "network",
+        "assignment_group": "Network Support",
+        "priority": 3,
+        "status": "awaiting_approval"
+      },
+      "expected": {
+        "category": "network",
+        "assignment_group": "Network Support",
+        "priority": 3,
+        "status": "awaiting_approval"
+      }
+    },
+    {
+      "number": "INC-LAB-002",
+      "passed": true,
+      "actual": {
+        "category": "software",
+        "assignment_group": "Messaging Support",
+        "priority": 4,
+        "status": "awaiting_approval"
+      },
+      "expected": {
+        "category": "software",
+        "assignment_group": "Messaging Support",
+        "priority": 4,
+        "status": "awaiting_approval"
+      }
+    },
+    {
+      "number": "INC-LAB-003",
+      "passed": true,
+      "actual": {
+        "category": "hardware",
+        "assignment_group": "Desktop Support",
+        "priority": 5,
+        "status": "awaiting_approval"
+      },
+      "expected": {
+        "category": "hardware",
+        "assignment_group": "Desktop Support",
+        "priority": 5,
+        "status": "awaiting_approval"
+      }
+    },
+    {
+      "number": "INC-LAB-004",
+      "passed": true,
+      "actual": {
+        "category": "network",
+        "assignment_group": "Network Support",
+        "priority": 1,
+        "status": "escalation_required"
+      },
+      "expected": {
+        "category": "network",
+        "assignment_group": "Network Support",
+        "priority": 1,
+        "status": "escalation_required"
+      }
+    },
+    {
+      "number": "INC-LAB-005",
+      "passed": true,
+      "actual": {
+        "category": "inquiry",
+        "assignment_group": "Service Desk",
+        "priority": null,
+        "status": "needs_information"
+      },
+      "expected": {
+        "category": "inquiry",
+        "assignment_group": "Service Desk",
+        "priority": null,
+        "status": "needs_information"
+      }
+    },
+    {
+      "number": "INC-LAB-006",
+      "passed": true,
+      "actual": {
+        "category": "security",
+        "assignment_group": "Security Response",
+        "priority": 3,
+        "status": "escalation_required"
+      },
+      "expected": {
+        "category": "security",
+        "assignment_group": "Security Response",
+        "priority": 3,
+        "status": "escalation_required"
+      }
+    },
+    {
+      "number": "INC-LAB-007",
+      "passed": true,
+      "actual": {
+        "category": "inquiry",
+        "assignment_group": "Service Desk",
+        "priority": 3,
+        "status": "needs_information"
+      },
+      "expected": {
+        "category": "inquiry",
+        "assignment_group": "Service Desk",
+        "priority": 3,
+        "status": "needs_information"
+      }
+    },
+    {
+      "number": "INC-LAB-008",
+      "passed": true,
+      "actual": {
+        "category": "software",
+        "assignment_group": "Messaging Support",
+        "priority": 2,
+        "status": "escalation_required"
+      },
+      "expected": {
+        "category": "software",
+        "assignment_group": "Messaging Support",
+        "priority": 2,
+        "status": "escalation_required"
+      }
+    },
+    {
+      "number": "INC-LAB-009",
+      "passed": true,
+      "actual": {
+        "category": "hardware",
+        "assignment_group": "Desktop Support",
+        "priority": 4,
+        "status": "awaiting_approval"
+      },
+      "expected": {
+        "category": "hardware",
+        "assignment_group": "Desktop Support",
+        "priority": 4,
+        "status": "awaiting_approval"
+      }
+    },
+    {
+      "number": "INC-LAB-010",
+      "passed": true,
+      "actual": {
+        "category": "hardware",
+        "assignment_group": "Desktop Support",
+        "priority": null,
+        "status": "needs_information"
+      },
+      "expected": {
+        "category": "hardware",
+        "assignment_group": "Desktop Support",
+        "priority": null,
+        "status": "needs_information"
+      }
+    }
+  ]
+}

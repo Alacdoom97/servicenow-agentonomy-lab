@@ -1,0 +1,54 @@
+{
+  "version": "lab-policy-1",
+  "priority_matrix": {
+    "1,1": 1,
+    "1,2": 2,
+    "1,3": 3,
+    "2,1": 2,
+    "2,2": 3,
+    "2,3": 4,
+    "3,1": 3,
+    "3,2": 4,
+    "3,3": 5
+  },
+  "routes": [
+    {
+      "category": "network",
+      "group": "Network Support",
+      "keywords": [
+        "vpn",
+        "wifi",
+        "network",
+        "dns"
+      ],
+      "kb": "KB-LAB-001"
+    },
+    {
+      "category": "software",
+      "group": "Messaging Support",
+      "keywords": [
+        "outlook",
+        "email",
+        "mailbox"
+      ],
+      "kb": "KB-LAB-002"
+    },
+    {
+      "category": "hardware",
+      "group": "Desktop Support",
+      "keywords": [
+        "laptop",
+        "printer",
+        "monitor"
+      ],
+      "kb": "KB-LAB-003"
+    }
+  ],
+  "security_keywords": [
+    "ransomware",
+    "phishing",
+    "malware",
+    "credential leak"
+  ],
+  "auto_apply": false
+}

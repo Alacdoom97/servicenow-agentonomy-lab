@@ -1,0 +1,63 @@
+{
+  "run_id": "063b1552b7cec2ba7e52b88b",
+  "number": "INC-LAB-001",
+  "source_revision": 0,
+  "policy_version": "lab-policy-1",
+  "status": "awaiting_approval",
+  "category": "network",
+  "assignment_group": "Network Support",
+  "priority": 3,
+  "evidence": [
+    "vpn"
+  ],
+  "explanation": "One routing rule matched: vpn.",
+  "questions": [],
+  "knowledge": [
+    {
+      "number": "KB-LAB-001",
+      "title": "VPN connectivity intake",
+      "category": "network",
+      "steps": [
+        "Confirm affected users, onset time, and whether another connection works.",
+        "Collect the exact error and approved VPN client version.",
+        "Send evidence to Network Support; do not change firewall or access policy."
+      ]
+    }
+  ],
+  "proposal": {
+    "category": "network",
+    "assignment_group": "Network Support",
+    "work_notes": "Offline lab triage: One routing rule matched: vpn. Suggested priority: 3. Knowledge: KB-LAB-001."
+  },
+  "trace": [
+    {
+      "step": 1,
+      "tool": "validate_incident",
+      "result": "Valid input; ticket text treated as untrusted data"
+    },
+    {
+      "step": 2,
+      "tool": "classify_and_route",
+      "result": "One routing rule matched: vpn."
+    },
+    {
+      "step": 3,
+      "tool": "calculate_priority",
+      "result": "Lab matrix gives P3"
+    },
+    {
+      "step": 4,
+      "tool": "retrieve_knowledge",
+      "result": [
+        "KB-LAB-001"
+      ]
+    },
+    {
+      "step": 5,
+      "tool": "apply_policy_gate",
+      "result": "awaiting_approval"
+    }
+  ],
+  "execution_mode": "offline_deterministic",
+  "automatic_write": false
+}

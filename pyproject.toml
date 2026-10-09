@@ -1,0 +1,6 @@
+[project]
+name = "servicenow-agentonomy-lab"
+version = "0.1.0"
+description = "Offline incident triage learning lab"
+requires-python = ">=3.10"
+dependencies = []

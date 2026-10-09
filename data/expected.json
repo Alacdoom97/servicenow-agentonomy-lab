@@ -1,0 +1,72 @@
+[
+  {
+    "number": "INC-LAB-001",
+    "category": "network",
+    "assignment_group": "Network Support",
+    "status": "awaiting_approval",
+    "priority": 3
+  },
+  {
+    "number": "INC-LAB-002",
+    "category": "software",
+    "assignment_group": "Messaging Support",
+    "status": "awaiting_approval",
+    "priority": 4
+  },
+  {
+    "number": "INC-LAB-003",
+    "category": "hardware",
+    "assignment_group": "Desktop Support",
+    "status": "awaiting_approval",
+    "priority": 5
+  },
+  {
+    "number": "INC-LAB-004",
+    "category": "network",
+    "assignment_group": "Network Support",
+    "status": "escalation_required",
+    "priority": 1
+  },
+  {
+    "number": "INC-LAB-005",
+    "category": "inquiry",
+    "assignment_group": "Service Desk",
+    "status": "needs_information",
+    "priority": null
+  },
+  {
+    "number": "INC-LAB-006",
+    "category": "security",
+    "assignment_group": "Security Response",
+    "status": "escalation_required",
+    "priority": 3
+  },
+  {
+    "number": "INC-LAB-007",
+    "category": "inquiry",
+    "assignment_group": "Service Desk",
+    "status": "needs_information",
+    "priority": 3
+  },
+  {
+    "number": "INC-LAB-008",
+    "category": "software",
+    "assignment_group": "Messaging Support",
+    "status": "escalation_required",
+    "priority": 2
+  },
+  {
+    "number": "INC-LAB-009",
+    "category": "hardware",
+    "assignment_group": "Desktop Support",
+    "status": "awaiting_approval",
+    "priority": 4
+  },
+  {
+    "number": "INC-LAB-010",
+    "category": "hardware",
+    "assignment_group": "Desktop Support",
+    "status": "needs_information",
+    "priority": null
+  }
+]
