@@ -10,7 +10,7 @@ def make_server(store, port=8765):
         def log_message(self, *_):
             pass
         def send(self, status, data, content_type="application/json"):
-            body = data.encode() if isinstance(data, str) else json.dumps(data).encode()
+            body = data.encode("utf-8") if isinstance(data, str) else json.dumps(data).encode("utf-8")
             self.send_response(status)
             self.send_header("Content-Type", content_type + "; charset=utf-8")
             self.send_header("Content-Length", str(len(body)))
@@ -20,7 +20,7 @@ def make_server(store, port=8765):
             self.wfile.write(body)
         def do_GET(self):
             path = urlparse(self.path).path
-            if path == "/": self.send(200, (ROOT / "visual/index.html").read_text(), "text/html")
+            if path == "/": self.send(200, (ROOT / "visual/index.html").read_text(encoding="utf-8"), "text/html")
             elif path == "/api/incidents": self.send(200, store.incidents())
             elif path == "/api/audit": self.send(200, store.audit())
             elif path == "/api/health": self.send(200, {"mode":"offline", "adapter":"sqlite_mock", "ai_agent_studio":"unknown"})
