@@ -87,7 +87,7 @@ class Store:
             if decision == "approve":
                 record = json.loads(record_raw)
                 if triage(record)["run_id"] != run_id:
-                    raise Conflict("Policy or knowledge changed since triage; run triage again")
+                    raise Conflict("Policy, knowledge, or engine changed since triage; run triage again")
                 # Only these three fields may change; priority, state, impact, urgency cannot be written here.
                 for field in ("category", "assignment_group"):
                     record[field] = result["proposal"][field]

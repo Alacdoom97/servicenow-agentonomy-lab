@@ -4,6 +4,7 @@ import json
 import re
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
+ENGINE_VERSION = "triage-2"
 
 def load(name):
     return json.loads((ROOT / name).read_text(encoding="utf-8"))
@@ -47,7 +48,14 @@ def triage(incident, policy=None, knowledge=None):
         category, group = "inquiry", "Service Desk"
         evidence = [word for _, words in candidates for word in words]
         explanation = "Multiple routing rules matched." if candidates else "No routing rule matched."
-        questions.append("Which service or device is affected, and what exact error do you see?")
+        if len(candidates) == 2 and {"vpn", "outlook"}.issubset(evidence):
+            questions.append("Are VPN and Outlook failing independently, or does Outlook fail only when you use VPN?")
+        elif len(candidates) > 1:
+            groups = list(dict.fromkeys(route["group"] for route, _ in candidates))
+            group_names = " and ".join(groups) if len(groups) <= 2 else ", ".join(groups[:-1]) + ", and " + groups[-1]
+            questions.append(f"The description matches {group_names}. Which service fails first, and what exact error does each show?")
+        else:
+            questions.append("Which service or device is affected, and what exact error do you see?")
     trace.append({"step": 2, "tool": "classify_and_route", "result": explanation})
     for field in ("impact", "urgency"):
         if incident.get(field) is None:
@@ -60,9 +68,11 @@ def triage(incident, policy=None, knowledge=None):
     trace.append({"step": 5, "tool": "apply_policy_gate", "result": status})
     proposal = {"category": category, "assignment_group": group,
                 "work_notes": f"Offline lab triage: {explanation} Suggested priority: {priority if priority else 'unknown'}. Knowledge: {', '.join(k['number'] for k in articles) or 'none'}."}
-    source = json.dumps({"incident": incident, "policy": policy, "knowledge": knowledge}, sort_keys=True)
+    source = json.dumps({"incident": incident, "policy": policy, "knowledge": knowledge,
+                         "engine_version": ENGINE_VERSION}, sort_keys=True)
     return {"run_id": hashlib.sha256(source.encode()).hexdigest()[:24], "number": incident["number"],
             "source_revision": incident.get("revision", 0), "policy_version": policy["version"],
+            "engine_version": ENGINE_VERSION,
             "status": status, "category": category, "assignment_group": group, "priority": priority,
             "evidence": evidence, "explanation": explanation, "questions": questions,
             "knowledge": articles, "proposal": proposal, "trace": trace,
